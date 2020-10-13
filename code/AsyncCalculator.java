@@ -1,4 +1,4 @@
-interface AsyncCalculator {
+interface AsyncFactorialCalculator {
 
   CompletableFuture<BigInteger> factorial(BigInteger x);
 

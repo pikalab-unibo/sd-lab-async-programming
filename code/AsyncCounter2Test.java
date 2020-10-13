@@ -1,9 +1,11 @@
-final ExecutorService ex = Executors.newSingleThreadExecutor();
-final AsyncCounter2 x = new AsyncCounter2(ex);
+ExecutorService ex = Executors.newSingleThreadExecutor();
+AsyncCounter2 counter = new AsyncCounter2(ex);
 
-assertEquals(0, x.getValue());
+assertEquals(0, counter.getValue());
 
-final CompletableFuture<Integer> result =  x.countUpTo(10_000);
+CompletableFuture<Integer> resultPromise =  x.countUpTo(10_000);
 
-assertEquals(Integer.valueOf(10_000), result.get()); // blocking!
-assertEquals(10_000, x.getValue());
+Integer actualResult = resultPromise.get(); // blocking!
+
+assertEquals(Integer.valueOf(10_000), actualResult); 
+assertEquals(10_000, counter.getValue());
