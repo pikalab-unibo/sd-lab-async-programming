@@ -13,7 +13,7 @@ jobs:
       - name: Set up Environment
         uses: allenevans/set-env@v1.0.0
         with:
-          LATEX_ROOT: main
+          LATEX_ROOT: sd-lab-async-programming
           
       - name: Build latex
         uses: xu-cheng/latex-action@v2
@@ -48,5 +48,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./${{ env.LATEX_ROOT }}.pdf
-          asset_name: ${{ env.LATEX_ROOT }}.pdf
+          asset_name: ${{ env.LATEX_ROOT }}-${{ steps.bump-version.outputs.new_tag }}-${{ steps.current-time.outputs.time }}.pdf
           asset_content_type: application/pdf
