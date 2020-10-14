@@ -26,7 +26,7 @@
 \setbeamercovered{transparent}
 
 \AtBeginSection{
-	\begin{frame}[c]\frametitle{Outline}
+	\begin{frame}[c]{Outline}
 		% 		\begin{multicols}{2}
 		\tableofcontents[sectionstyle=show/shaded, subsectionstyle=hide/hide, subsubsectionstyle=hide/hide]
 		% 		\end{multicols}
@@ -34,7 +34,7 @@
 }
 
 \AtBeginSubsection{
-	\begin{frame}[c]\frametitle{Next in Line\ldots}
+	\begin{frame}[c]{Next in Line\ldots}
 		\begin{multicols}{2}
 			\tableofcontents[sectionstyle=show/shaded, subsectionstyle=show/shaded, subsubsectionstyle=hide/hide]
 		\end{multicols}
@@ -49,15 +49,14 @@
 
 \section{Overview}
 
-\begin{frame}
-\frametitle{Motivation \& Lecture Goals}
+\begin{frame}[c]{Motivation \& Lecture Goals}
 
 \begin{itemize}
-	\item Asynchronous programming is a fundamental paradigm for distributed or concurrent systems
+	\item asynchronous programming is a fundamental paradigm for distributed or concurrent systems
 
 	\vfill
 
-	\item In particular in this course we need it to show how some mechanisms are achieved
+	\item in particular in this course we need it to show how some mechanisms are achieved
 	%
 	\begin{itemize}
 		\item e.g. \linda{}'s suspensive semantics
@@ -65,11 +64,11 @@
 
 	\vfill
 
-	\item Furthermore, asynchronous programming is the \emph{de facto} standard for the development of real-world distributed applications
+	\item furthermore, asynchronous programming is the \emph{de facto} standard for the development of real-world distributed applications
 
 	\vfill
 
-	\item For all such reasons, in this tutorial we introduce the notions of \alert{executor service}, \alert{future}, and \alert{promise} in Java
+	\item for all those reasons, in this tutorial we introduce the notions of \alert{executor service}, \alert{future}, and \alert{promise} in Java
 	%
 	\begin{itemize}
 		\item equivalent constructs exist in all mainstream languages nowadays
@@ -78,11 +77,10 @@
 
 \end{frame}
 
-\begin{frame}
-\frametitle{Lab \labN{} Repository on GitLab}
+\begin{frame}[c]{Lab \labN{} Repository on GitLab}
 
 	\begin{itemize}
-		\item Examples and exercises described in this lecture are provided by means of the following GitLab repository:
+		\item examples and exercises described in this lecture are provided by means of the following GitLab repository:
 		%
 		\begin{center}
 			\url{\labRepo}
@@ -90,7 +88,7 @@
 
 		\vfill
 
-		\item Clone it on your machine using Git
+		\item clone it on your machine using Git
 		%
 		\begin{itemize}
 		    \item[\$] \texttt{git clone \textit{<repo URL>}}
@@ -98,11 +96,11 @@
 
 		\vfill
 
-		\item Even if a minimal environment simply relying on a text editor + Gradle is sufficient for this lab, we kindly suggest to import the cloned repository into some IDE, e.g. IntelliJ Idea or Eclipse
+		\item even if a minimal environment simply relying on a text editor + Gradle is sufficient for this lab, we kindly suggest to import the cloned repository into some IDE, e.g. IntelliJ Idea or Eclipse
 
 		\vfill
 
-		\item In order to be able to submit your exercises, please ensure you requested access to the \href{\labGroup}{GitLab group of the course}
+		\item in order to be able to submit your exercises, please ensure you requested access to the \href{\labGroup}{GitLab group of the course}
 	\end{itemize}
 
 \end{frame}
@@ -111,14 +109,14 @@
 
 \subsection{Executor Services}
 
-\begin{frame}[allowframebreaks]\frametitle{Executor Services}
+\begin{frame}[c,allowframebreaks]{Executor Services}
 
 	\begin{itemize}
-		\item Objects of type \href{https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html}{\texttt{java.util.concurrent.\alert{ExecutorService}}} are useful for building \alert{concurrent} applications, abstracting threads away
+		\item objects of type \href{https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html}{\texttt{java.util.concurrent.\alert{ExecutorService}}} are useful for building \alert{concurrent} applications, abstracting threads away
 
 		\bigskip
 
-		\item An \alert{\texttt{ExecutorService}} is essentially a wrapper for one or more \alert{worker} threads + a \alert{task queue} which is consumed by such thread(s), where a task can be either:
+		\item an \alert{\texttt{ExecutorService}} is essentially a wrapper for one or more \alert{worker} threads + a \alert{task queue} which is consumed by such thread(s), where a task can be either:
 		%
 		\begin{itemize}
 			\item an instance of \href{https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html}{\texttt{java.lang.\alert{Runnable}}}, representing a \emph{procedure} to be \alert{executed} by the executor service
@@ -147,15 +145,14 @@
 
 \subsection{Runnables}
 
-\begin{frame}[allowframebreaks]
-\frametitle{Executing \texttt{Runnable}s -- Concept}
+\begin{frame}[c,allowframebreaks]{Executing \texttt{Runnable}s -- Concept}
 
 	\lstinputlisting[language=Java]{code/Runnable.java}
 
 	\framebreak
 
 	\begin{itemize}
-		\item Runnables can be \alert{executed} on an executor service by means of its \texttt{void execute(Runnable task)} method
+		\item runnables can be \alert{executed} on an executor service by means of its \texttt{void execute(Runnable task)} method
 	\end{itemize}
 	%
 	\begin{center}
@@ -166,8 +163,7 @@
 
 \end{frame}
 
-\begin{frame}%[allowframebreaks]
-\frametitle{Executing \texttt{Runnable}s -- Example}
+\begin{frame}[c]{Executing \texttt{Runnable}s -- Example}
 
 	\lstinputlisting[language=Java]{./code/execute_example.java}
 
@@ -179,8 +175,7 @@
 
 \end{frame}
 
-\begin{frame}%[allowframebreaks]
-\frametitle{More examples on \texttt{ExecutorService}s}
+\begin{frame}[c]{More examples on \texttt{ExecutorService}s}
 
 	Let's have a look to \texttt{sd.lab.concurrency.\alert{ExecutorServicesExamples}}
 
@@ -215,7 +210,7 @@
     \frametitle{Splitting long-lasting, \textbf{recursive} computations}
 
     \begin{itemize}
-        \item \emph{Recursive} computations can be \alert{split} into several tasks
+        \item \emph{recursive} computations can be \alert{split} into several tasks
         %
         \begin{itemize}
             \item to be scheduled in a row
@@ -223,7 +218,7 @@
 
         \bigskip
 
-        \item Each task must do 2 things:
+        \item each task must do 2 things:
         %
         \begin{itemize}
             \item compute 1 step of the recursive algorithm
@@ -236,13 +231,13 @@
 
     \begin{block}{Advantages}
         \begin{itemize}
-            \item No issues related to stack saturation
+            \item no issues related to stack saturation
             %
             \begin{itemize}
                 \item as tasks lay on the heap
             \end{itemize}
 
-            \item The same executor service can carry on several algorithms
+            \item the same executor service can carry on several algorithms
             %
             \begin{itemize}
                 \item even if single-threaded
@@ -254,9 +249,9 @@
 
     \begin{exampleblock}{Recall that}
         \begin{itemize}
-            \item Iteration and recursion are equivalent mechanisms
-            \item Iterative algorithms can always be rewritten in recursive form (and vice-versa)
-            \item Tail-recursive formulations should be preferred, if possible
+            \item iteration and recursion are equivalent mechanisms
+            \item iterative algorithms can always be rewritten in recursive form (and vice-versa)
+            \item tail-recursive formulations should be preferred, if possible
         \end{itemize}
     \end{exampleblock}
 
@@ -294,25 +289,24 @@
 
 \subsection{Callables \& Futures}
 
-\begin{frame}[allowframebreaks]
-\frametitle{Executing \texttt{Callable}s -- Concept}
+\begin{frame}[c,allowframebreaks]{Executing \texttt{Callable}s -- Concept}
 
 	\lstinputlisting[language=Java]{./code/Callable.java}
 
 	\framebreak
 
 	\begin{itemize}
-		\item Callables can be \alert{submitted} on an executor service by means of its \texttt{Future<X> submit(Callable<X> task)} method
+		\item callables can be \alert{submitted} on an executor service by means of its \texttt{Future<X> submit(Callable<X> task)} method
 
 		\vspace{.5cm}
 
 		% \begin{itemize}
-		\item The result of the asynchronous invocation can be retrieved by the caller by means of the returned \texttt{Future<X>} object
+		\item the result of the asynchronous invocation can be retrieved by the caller by means of the returned \texttt{Future<X>} object
 		% \end{itemize}
 
 		\vspace{.5cm}
 
-		\item Futures represent \alert{placeholders} for results that will \emph{eventually} be(come) available
+		\item futures represent \alert{placeholders} for results that will \emph{eventually} be(come) available
 	\end{itemize}
 
 	\framebreak
@@ -337,27 +331,26 @@
 		\end{column}
 		\begin{column}{.4\linewidth}
 			\begin{enumerate}
-				\item The client \alert{submits} a callable to an executor service
+				\item the client \alert{submits} a callable to an executor service
 
-				\item The executor service \alert{immediately} returns a future to the client
+				\item the executor service \alert{immediately} returns a future to the client
 
-				\item To retrieve the result, the client must invoke the \alert{\texttt{Future::get}} method
+				\item to retrieve the result, the client must invoke the \alert{\texttt{Future::get}} method
 
-				\item Such invocation \alert{blocks} until some worker thread \alert{comlpetes} the future with some result
+				\item such invocation \alert{blocks} until some worker thread \alert{comlpetes} the future with some result
 			\end{enumerate}
 		\end{column}
 	\end{columns}
 
 \end{frame}
 
-\begin{frame}%[allowframebreaks]
-\frametitle{Executing \texttt{Callables}s -- Example}
+\begin{frame}[c]{Executing \texttt{Callables}s -- Example}
 
 	\lstinputlisting[language=Java]{./code/submit_example.java}
 
 \end{frame}
 
-\begin{frame}[c]\frametitle{More examples on \texttt{Future}s}
+\begin{frame}[c]{More examples on \texttt{Future}s}
 
 	Consider having a look to the following examples as well
 	%
@@ -369,19 +362,18 @@
 
 \subsection{Promises}
 
-\begin{frame}[allowframebreaks]
-\frametitle{\texttt{CompletableFuture}s (a.k.a. Promises)}
+\begin{frame}[c,allowframebreaks]{\texttt{CompletableFuture}s (a.k.a. Promises)}
 
 	\begin{itemize}
-		\item Futures are great for computing functions \alert{asynchronously}
+		\item futures are great for computing functions \alert{asynchronously}
 
 		\medskip
 
-		\item The examples presented so far, show how to create a future out of some Callable submission
+		\item the examples presented so far, show how to create a future out of some Callable submission
 
 		\medskip
 
-		\item Can we explicitly decide which result should a future provide and when the caller should be unlocked?
+		\item can we explicitly decide which result should a future provide and when the caller should be unlocked?
 
 		\bigskip
 
@@ -394,22 +386,19 @@
 
 \end{frame}
 
-\begin{frame}%[allowframebreaks]
-\frametitle{\texttt{CompletableFuture}s (a.k.a. Promises) -- Example}
+\begin{frame}[c]{\texttt{CompletableFuture}s (a.k.a. Promises) -- Example}
 
 	\lstinputlisting[language=Java]{./code/AsyncCounter2.java}
 
 \end{frame}
 
-\begin{frame}%[allowframebreaks]
-\frametitle{\texttt{CompletableFuture}s -- Client side}
+\begin{frame}[c]{\texttt{CompletableFuture}s -- Client side}
 
 	\lstinputlisting[language=Java]{./code/AsyncCounter2Test.java}
 
 \end{frame}
 
-\begin{frame}[c]
-\frametitle{More examples on \texttt{CompletableFuture}s}
+\begin{frame}[c]{More examples on \texttt{CompletableFuture}s}
 
 	Consider having a look to the following examples as well
 	%
@@ -420,14 +409,13 @@
 
 \end{frame}
 
-\section{Check your understanding}
+\section{Check Your Understanding}
 
 \startExercise
 
 \subsection{Asynchronous Factorial Calculator}
 
-\begin{frame}[c, allowframebreaks]
-\frametitle{Exercise \currentExercise{} -- Asynchronous Factorial Calculator}
+\begin{frame}[c,allowframebreaks]{Exercise \currentExercise{} -- Asynchronous Factorial Calculator}
 
 	Consider the interface \texttt{sd.lab.concurrency.exercise.\alert{AsyncFactorialCalculator}}:
 	%
@@ -438,7 +426,7 @@
 	\bigskip
 	%
 	\begin{enumerate}
-		\item Provide an implementation for such an interface\ldots
+		\item provide an implementation for such an interface\ldots
 
 		\bigskip
 
@@ -459,7 +447,7 @@
 
     \begin{enumerate}\setcounter{enumi}{2}
 
-		\item Submit your exercise to the following branch on Lab 3 repository
+		\item submit your exercise to the following branch on Lab 3 repository
 		%
 		\begin{center}
 			\texttt{submissions/\textit{name.surname}}
@@ -467,13 +455,12 @@
 
 		\bigskip
 
-		\item Continuous Integration will automatically run tests
+		\item continuous Integration will automatically run tests
 	\end{enumerate}
 
 \end{frame}
 
-\begin{frame}[c, allowframebreaks]
-	\frametitle{Exercise \currentExercise{} -- Trivial Solution to be \textbf{Avoided}}
+\begin{frame}[c,allowframebreaks]{Exercise \currentExercise{} -- Trivial Solution to be \textbf{Avoided}}
 
 	Please \alert{avoid} the trivial solution where the whole computation is performed as a single task:
 	%
@@ -485,8 +472,7 @@
 
 \subsection{Custom Executor Service (Advanced)}
 
-\begin{frame}[c, allowframebreaks]
-	\frametitle{(Advanced) Exercise \currentExercise{} -- Custom Executor Service}
+\begin{frame}[c,allowframebreaks]{(Advanced) Exercise \currentExercise{} -- Custom Executor Service}
 
 	\begin{alertblock}{This is an \textbf{advanced} exercise}
 		\begin{itemize}
@@ -538,7 +524,7 @@
 
         \bigskip
 
-        \item Continuous Integration will automatically run tests
+        \item continuous Integration will automatically run tests
 
 	\end{enumerate}
 
