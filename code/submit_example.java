@@ -1,11 +1,11 @@
 public void submitExample() throws /* ... */ {
   ExecutorService ex = Executors.newCachedThreadPool();
+  
   Future<Integer> result = ex.submit(new Callable<Integer>() {
-
-    @Override public Integer call() throws Exception {
+    @Override 
+    public Integer call() throws Exception {
       return 1 + 2;
     }
-    
   });
   
   System.out.println("This may be printed before the result");
