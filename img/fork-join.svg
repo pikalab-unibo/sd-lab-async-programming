@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="253px" preserveAspectRatio="none" style="width:842px;height:253px;background:#FFFFFF;" version="1.1" viewBox="0 0 842 253" width="842px" zoomAndPan="magnify"><defs><filter height="300%" id="f1vkmsp8az93sg" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[5a6ec2791cb60a9cb858cbd52fdf51f2]
+cluster Main Thread--><polygon fill="#FFFFFF" filter="url(#f1vkmsp8az93sg)" points="16,6,123,6,130,28.2969,825,28.2969,825,137,16,137,16,6" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="16" x2="130" y1="28.2969" y2="28.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="101" x="20" y="20.9951">Main Thread</text><!--MD5=[935d2065eecdd625521b095031a943d1]
+cluster Other Thread--><polygon fill="#FFFFFF" filter="url(#f1vkmsp8az93sg)" points="292,161,406,161,413,183.2969,549,183.2969,549,246,292,246,292,161" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="292" x2="413" y1="183.2969" y2="183.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="108" x="296" y="175.9951">Other Thread</text><ellipse cx="42" cy="81" fill="#000000" filter="url(#f1vkmsp8az93sg)" rx="10" ry="10" style="stroke:none;stroke-width:1.0;"/><rect fill="#FEFECE" filter="url(#f1vkmsp8az93sg)" height="33.9688" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="91" x="93" y="64"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="71" x="103" y="85.1387">Operation 1</text><rect fill="#000000" filter="url(#f1vkmsp8az93sg)" height="80" style="stroke:none;stroke-width:1.0;" width="8" x="247" y="41"/><rect fill="#FEFECE" filter="url(#f1vkmsp8az93sg)" height="33.9688" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="92" x="308" y="64"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="72" x="318" y="85.1387">Operation 2</text><rect fill="#FEFECE" filter="url(#f1vkmsp8az93sg)" height="33.9688" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="92" x="441" y="64"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="72" x="451" y="85.1387">Operation 3</text><rect fill="#000000" filter="url(#f1vkmsp8az93sg)" height="80" style="stroke:none;stroke-width:1.0;" width="8" x="607" y="41"/><rect fill="#FEFECE" filter="url(#f1vkmsp8az93sg)" height="33.9688" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="92" x="656" y="64"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="72" x="666" y="85.1387">Operation 4</text><ellipse cx="799" cy="81" filter="url(#f1vkmsp8az93sg)" rx="10" ry="10" style="stroke:#000000;stroke-width:1.0;fill:none;"/><ellipse cx="799.5" cy="81.5" fill="#000000" rx="6" ry="6" style="stroke:none;stroke-width:1.0;"/><rect fill="#FEFECE" filter="url(#f1vkmsp8az93sg)" height="33.9688" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="92" x="308" y="196"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="72" x="318" y="217.1387">Operation A</text><rect fill="#FEFECE" filter="url(#f1vkmsp8az93sg)" height="33.9688" rx="12.5" ry="12.5" style="stroke:#A80036;stroke-width:1.5;" width="92" x="441" y="196"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="72" x="451" y="217.1387">Operation B</text><!--MD5=[decd49eaab9bb159aa5059db10f6bb84]
+link start to Operation 1--><path d="M52.0611,81 C60.5367,81 73.9089,81 87.5801,81 " fill="none" id="start-to-Operation 1" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="92.6219,81,83.6219,77,87.6219,81,83.6219,85,92.6219,81" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[3f186e6f49669945948a0fc3abfe647f]
+link Operation 1 to S1--><path d="M184.126,81 C205.54,81 229.166,81 241.475,81 " fill="none" id="Operation 1-to-S1" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="246.549,81,237.549,77,241.549,81,237.549,85,246.549,81" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="21" x="205" y="78.2104">fork</text><!--MD5=[0d6c413010a4006bf3a997ed19b30310]
+link S1 to Operation 2--><path d="M255.36,81 C263.091,81 283.002,81 302.842,81 " fill="none" id="S1-to-Operation 2" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="307.877,81,298.877,77,302.877,81,298.877,85,307.877,81" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[c33e14cbcb64cd26db49d1d06ebad994]
+link Operation 2 to Operation 3--><path d="M400.083,81 C411.507,81 423.852,81 435.524,81 " fill="none" id="Operation 2-to-Operation 3" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="440.834,81,431.834,77,435.834,81,431.834,85,440.834,81" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[7daa617ca4762f183b5ee585368f0711]
+link Operation 3 to S2--><path d="M533.082,81 C558.275,81 587.363,81 601.46,81 " fill="none" id="Operation 3-to-S2" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="606.814,81,597.814,77,601.814,81,597.814,85,606.814,81" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacing" textLength="20" x="566" y="78.2104">join</text><!--MD5=[158a17660b39d2eea69d9c2facec4687]
+link S2 to Operation 4--><path d="M615.38,81 C621.599,81 635.589,81 650.495,81 " fill="none" id="S2-to-Operation 4" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="655.575,81,646.575,77,650.575,81,646.575,85,655.575,81" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[f75ddc4aa5229edbe671563f709e3ed1]
+link Operation 4 to end--><path d="M748.274,81 C761.058,81 774.057,81 783.557,81 " fill="none" id="Operation 4-to-end" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="788.718,81,779.718,77,783.718,81,779.718,85,788.718,81" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[cdfb74dcbdf1edaa35afcffbaf0199a8]
+link S1 to Operation A--><path d="M255.052,86.777 C260.413,96.746 272.086,117.679 284,134 C299.144,154.746 318.546,176.6124 332.917,192.0673 " fill="none" id="S1-to-Operation A" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="336.457,195.8538,333.2332,186.5475,333.0426,192.2011,327.389,192.0105,336.457,195.8538" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[f97bbed0d271192928ccce194d1512e7]
+link Operation A to Operation B--><path d="M400.083,213 C411.507,213 423.852,213 435.524,213 " fill="none" id="Operation A-to-Operation B" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="440.834,213,431.834,209,435.834,213,431.834,217,440.834,213" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[5dd3bb658fcfe44a9357603a69c66060]
+link Operation B to S2--><path d="M503.949,195.7433 C530.964,166.5147 584.612,108.469 603.352,88.192 " fill="none" id="Operation B-to-S2" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="606.8,84.463,597.7532,88.3561,603.4058,88.1344,603.6275,93.7869,606.8,84.463" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[53c65bcd35fc5f87aaefb21f7fbcc75c]
+@startuml
+left to right direction
+
+partition "Main Thread" {
+  (*) - -> "Operation 1"
+  - -> [fork] === S1 ===
+  - -> "Operation 2"
+  - -> "Operation 3"
+  - -> [join] === S2 ===
+  - -> "Operation 4"
+  - -> (*)
+}
+
+partition "Other Thread" {
+  === S1 === - -> "Operation A"
+  - -> "Operation B"
+  - -> === S2 ===
+}
+@enduml
+
+PlantUML version 1.2021.7(Sun May 23 12:40:07 UTC 2021)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
