@@ -1,0 +1,19 @@
+@startuml
+left to right direction
+
+partition "Main Thread" {
+  (*) --> "Operation 1"
+  --> [fork] === S1 ===
+  --> "Operation 2"
+  --> "Operation 3"
+  --> [join] === S2 ===
+  --> "Operation 4"
+  --> (*)
+}
+
+partition "Other Thread" {
+  === S1 === --> "Operation A"
+  --> "Operation B"
+  --> === S2 ===
+}
+@enduml

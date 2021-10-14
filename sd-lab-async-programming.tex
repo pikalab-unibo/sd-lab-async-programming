@@ -103,6 +103,545 @@
 
 \section{Fundamentals}
 
+\subsection{Operative Systems Recap}
+
+\begin{frame}[allowframebreaks]
+    \frametitle{OS, Processes, Threads, etc.}
+
+    \begin{block}{Operative System (OS)}
+        The entity mediating or virtualising the access of users' applications to:
+        %
+        \begin{itemize}
+            \item the processor(s)
+            \item the (RAM) memory
+            \item the file system
+            \item I/O peripherals
+        \end{itemize}
+        i.e. any hardware resource composing a machine
+        %
+        \begin{itemize}
+            \item[$\rightarrow$] virtualisation is needed to support
+            %
+            \begin{itemize}
+                \item isolation
+                \item hardware / driver agnosticism
+            \end{itemize}
+            \item[$\rightarrow$] mediation is needed to shared access
+        \end{itemize}
+    \end{block}
+
+    \begin{block}{Scheduling}
+        The functionality letting an OS execute $N$ activities on $M$ processors
+        %
+        \begin{itemize}
+            \item even if $N \gg M$
+            \item even if $M \equiv 1$
+        \end{itemize}
+    \end{block}
+
+    \begin{block}{Virtual Memory}
+        The functionality letting each activity running within the OS
+        %
+        \begin{itemize}
+            \item have its own isolated memory (address space)
+            \item pretending to be the only one
+            \item avoid to pollute other activities' memory
+        \end{itemize}
+    \end{block}
+
+    \begin{block}{Process vs. Thread}
+        The two main sorts of activities which can run within an OS
+        %
+        \begin{description}
+            \item[processes] are independent running programs, within the same OS
+            %
+            \begin{itemize}
+                \item each one has its own address space
+                %
+                \begin{itemize}
+                    \item[$\rightarrow$] no memory contamination is possible
+                    \item[$\rightarrow$] interaction among processes can occur via I/O and pipes
+                \end{itemize}
+            \end{itemize}
+
+            \item[threads] are independents control flows running within a process
+            %
+            \begin{itemize}
+                \item all threads can access the same process memory
+                %
+                \begin{itemize}
+                    \item[$\rightarrow$] interaction among threads may occur via shared memory
+                \end{itemize}
+            \end{itemize}
+        \end{description}
+    \end{block}
+
+    \begin{block}{I/O and Files}
+        Three main abstractions:
+        %
+        \begin{description}
+            \item[files] | letting processes interact with each others or the HW
+            %
+            \begin{itemize}
+                \item[ie] \alert{streams} of data which can be byte-wise \alert{read/written}
+                %
+                \begin{itemize}
+                    \item via a \alert{blocking} API for reading/writing
+                \end{itemize}
+            \end{itemize}
+
+            \item[file system] | a \alert{tree}-like way of organising and \alert{referencing}/naming files
+
+            \item[path] | the particular name of a file in a file system
+        \end{description}
+    \end{block}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+    \frametitle{Parallel vs. Concurrent}
+
+    \begin{block}{Single-Core vs. Multi-Core Processors}
+        \begin{itemize}
+            \item 1-core machines can normally perform a \alert{single operation} at a time
+            \item $N$-core machines can typically perform \alert{$N$ simultaneous operations}
+            %
+            \begin{itemize}
+                \item yet, a single memory access at a time
+                \item fundamental role of \alert{cores' caches} to speedup computations
+            \end{itemize}
+        \end{itemize}
+    \end{block}
+
+    \begin{alertblock}{Takeways}
+        \centering
+        Thanks to scheduling, concurrency can exist on single-core machines too!
+    \end{alertblock}
+
+    \begin{block}{Concurrent $\supset$ Parallel}
+        \begin{description}
+            \item[parallel] activities are actually simultaneous
+            %
+            \begin{itemize}
+                \item as they are executed by different processors / cores
+            \end{itemize}
+
+            \item[concurrent] activities may or may not be simultaneous
+            %
+            \begin{itemize}
+                \item[eg] activities sharing 1 core via time-sharing scheduling
+                %
+                \begin{itemize}
+                    \item they are concurrent, yet not parallel
+                \end{itemize}
+            \end{itemize}
+        \end{description}
+    \end{block}
+\end{frame}
+
+\subsection{Understanding Concurrency}
+
+\begin{frame}[allowframebreaks]
+    \frametitle{Control Flow}
+
+    \begin{block}{Rough definition(s)}
+        \begin{center}
+            The order in which a program statements are executed
+        \end{center}
+    \end{block}
+
+    \begin{block}{Synchronus statements}
+        \begin{itemize}
+            \item In sequential programs, statements are executed \alert{synchronously}
+            %
+            \begin{itemize}
+                \item[ie] one after another
+                \item[ie] statement $i+1$ is only executed after statement $i$ is over
+                %
+                \begin{itemize}
+                    \item[$\rightarrow$] the ``end'' of statements is implicitly defined
+                \end{itemize}
+            \end{itemize}
+        \end{itemize}
+    \end{block}
+
+%    \tcodeview{2}{7}{30}{\tiny}{\codepath{Misc/Program.cs}}{Sequential Control Flow}
+    \lstinputlisting[basicstyle=\tiny\ttfamily, language=Java, caption={Sequential Control Flow}]{code/SequentialControlFlow.java}
+
+    % Ordinary notion of control flow
+
+    % Notion of synchronous operation
+
+    % Operations'ending is implicitly developed
+
+    \begin{alertblock}{Takeway}
+        \begin{itemize}
+            \item Concurrency is about \alert{coordinating} multiple interacting activites
+            %
+            \begin{itemize}
+                \item each one having its own control flow
+            \end{itemize}
+        \end{itemize}
+    \end{alertblock}
+
+    \begin{exampleblock}{Control flows in practice}
+        \begin{itemize}
+            \item In this lecture: 1 control flow $\approx$ 1 thread
+            \item In general this is not true!
+            %
+            \begin{itemize}
+                \item we will show how multiple control flows may run on 1 thread
+            \end{itemize}
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\subsubsection{Multi-threading}
+
+\begin{frame}
+    \frametitle{Why Multi-threading}
+
+    \begin{alertblock}{Discalimer}
+        \begin{itemize}
+            \item We will now focus on \alert{threads} and \alert{multi-threading}
+            %
+            \begin{itemize}
+                \item as they are the basic bricks of concurrent programming
+            \end{itemize}
+
+            \item However, far wiser approaches exist to concurrency
+            %
+            \begin{itemize}
+                \item technicalities discussed here on are just required to understand them
+            \end{itemize}
+        \end{itemize}
+    \end{alertblock}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+    \frametitle{Multiple Concurrent Threads}
+
+    \begin{block}{Threads}
+        \begin{itemize}
+            \item Threads are control flows, managed and scheduled by the OS
+            \item They run inside the same process and can share its memory
+            \item Each thread has its own call stack \& program counter
+            %
+            \begin{itemize}
+                \item multiple threads execution is actually independent
+                %
+                \begin{itemize}
+                    \item as long as they don't access a common portion of memory
+                \end{itemize}
+            \end{itemize}
+        \end{itemize}
+    \end{block}
+
+    \begin{exampleblock}{Common operations over threads}
+        \begin{description}
+            \item[creation] | lets a thread create another thread from a \alert{procedure}
+            %
+            \begin{itemize}
+                \item creation usually does not imply start
+                \item the procedure represents an action to be performed
+                %
+                \begin{itemize}
+                    \item by the new thread, upon start
+                \end{itemize}
+            \end{itemize}
+
+            \item[start] (a.k.a. fork, spawn) | lets a thread spawn another thread
+            %
+            \begin{itemize}
+                \item threads can usually be started only once
+            \end{itemize}
+
+            \item[join] (a.k.a. wait, await) | lets a thread wait for another thread termination
+            %
+            \begin{itemize}
+                \item only started threads can be joined
+            \end{itemize}
+        \end{description}
+    \end{exampleblock}
+
+    \begin{center}
+        \includegraphics[width=\linewidth]{img/fork-join.pdf}
+    \end{center}
+    %
+    \begin{itemize}
+        \item \texttt{Operation 1} is certainly executed first
+        \item \texttt{Operation 4} is certainly executed last
+        \item \texttt{Operation 2} is certainly executed before \texttt{Operation 3}
+        \item \texttt{Operation A} is certainly executed before \texttt{Operation B}
+        \item nothing else is certain!
+    \end{itemize}
+
+    \framebreak
+
+    \begin{block}{Threads on the JVM}
+        \begin{itemize}
+            \item Each JVM application is executed on a main thread
+            %
+            \begin{itemize}
+                \item the garbage collector is usually executed on yet another thread
+            \end{itemize}
+
+            \item Novel threads may be created/started/joined
+            %
+            \begin{itemize}
+                \item threads are instances of the \texttt{java.lang.\alert{Thread}} class
+                %
+                \begin{itemize}
+                    \item notice that threads are modelled as objects in the JDK
+                \end{itemize}
+            \end{itemize}
+
+            \item Our code is always executed on some thread
+            %
+            \begin{itemize}
+                \item be it the main thread or anther thread we created after it
+            \end{itemize}
+        \end{itemize}
+    \end{block}
+
+    \begin{exampleblock}{Useful functionalities of \texttt{java.lang.Thread}}
+        \begin{description}
+            \item[\texttt{new Thread(Runnable)}] | creates a novel thread which shall execute the provided \texttt{Runnable} upon start
+
+            \item[\texttt{start()}] lets another thread start the thread
+
+            \item[\texttt{join()}] lets another thread wait for a thread termination
+
+            \item[\texttt{interrupt()}] lets a thread resume another \alert{blocked} thread
+            %
+            \begin{itemize}
+                \item[!] this does not terminate the latter thread!
+            \end{itemize}
+
+            \item[\texttt{stop()}] lets a thread terminate another thread
+            %
+            \begin{itemize}
+                \item[!] avoid terminating threads from the outside
+                %
+                \begin{itemize}
+                    \item[$\rightarrow$] threads should be responsible for their own termination
+                \end{itemize}
+            \end{itemize}
+        \end{description}
+    \end{exampleblock}
+
+    \framebreak
+
+%    \codeview{1}{5}{28}{\tiny}{\codepath{Thread1/Program.cs}}
+    \lstinputlisting[basicstyle=\tiny\ttfamily, language=Java]{code/Thread1.java}
+
+    \framebreak
+
+    \begin{alertblock}{Asynchrnous activities}
+        \begin{itemize}
+            \item Notice that the execution of \texttt{threadMain()} is \alert{asynchronous}
+            %
+            \begin{itemize}
+                \item in the eyes of the main thread
+            \end{itemize}
+
+            \item The main thread knows when it starts, not when it ends
+            %
+            \begin{itemize}
+                \item unless the second thread is join
+            \end{itemize}
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+    \frametitle{Advanced Aspects of Threads}
+
+    % Synchronization (Suspend/Block -- Resume/Release)
+
+    % Join/Wait/Await
+
+    \begin{exampleblock}{More functionalities of threads}
+        \begin{description}
+            \item[suspend] (a.k.a. block, wait)  | lets a thread pause its own execution
+
+            \item[resume] (a.k.a. release) | lets a thread resume another thread
+            %
+            \begin{itemize}
+                \item assumes the latter thread has been previously suspended
+            \end{itemize}
+
+            \item[synchronization] (a.k.a. barrier) | lets 2 threads wait for each other to reach a particula point in their execution
+            %
+            \begin{itemize}
+                \item implies both threads suspending and resuming
+            \end{itemize}
+        \end{description}
+    \end{exampleblock}
+
+    \begin{alertblock}{Important notice about the JVM}
+        \begin{itemize}
+            \item Despite methods exist to suspend/resume instanced of \texttt{Thread}\ldots
+            %
+            \begin{itemize}
+                \item[eg] \texttt{resume()}, \texttt{suspend()}
+                \item \ldots \textbf{do not use them!}
+            \end{itemize}
+
+            \item Suspend/resume should only be performed via adequate mechanisms
+            %
+            \begin{itemize}
+                \item[eg] monitors, or semaphores
+            \end{itemize}
+
+            \item Also notice that the following operations involve suspension/resume:
+            %
+            \begin{description}\small
+                \item[\texttt{Thread.sleep(\cscat{Millis})}] | suspends the current thread for a while
+                \item[\texttt{join()}] | lets a thread await for another thread termination
+                \item[I/O facilities] | for reading or writing over streams
+                %
+                \begin{itemize}
+                    \item imply potential blocking/resuming
+                    %
+                    \begin{itemize}
+                        \item to guarantee a synchronous semantics
+                    \end{itemize}
+
+                    \item[eg] \texttt{System.in.\textit{read*}()} or \texttt{System.out.\textit{print*}(\ldots)}
+                \end{itemize}
+            \end{description}
+        \end{itemize}
+    \end{alertblock}
+
+    \framebreak
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=.7\linewidth]{img/thread-states.png}
+        \caption{Admissible states of a JVM thread}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+    \frametitle{Consequences of Concurrency}
+
+    \begin{block}{Non-determinism}
+        \begin{itemize}
+            \item The way the OS will schedule concurrent threads is unpredictable
+            \item Different runs of a concurrent program may produce different outcomes
+            %
+            \begin{itemize}
+                \item because execution may proceed differently in different runs
+            \end{itemize}
+            \item[$\rightarrow$] Non-deterministic observable behaviour of the system
+        \end{itemize}
+    \end{block}
+
+    \begin{block}{Interleaving}
+        \begin{itemize}
+            \item \alert{Atomic} actions of concurrent threads may unpredictably \alert{interleave}
+            \item All possible total ordering among atomic actions may occur
+            %
+            \begin{itemize}
+                \item in principle
+                \item despite with different probabilities
+            \end{itemize}
+            \item Unpredictability of interleaving $\rightarrow$ Non-determinism
+        \end{itemize}
+    \end{block}
+
+    \framebreak
+
+    \begin{center}
+        \includegraphics[width=\linewidth]{img/fork-join.pdf}
+    \end{center}
+
+    \begin{exampleblock}{Possible interleavings}
+        \begin{multicols}{3}
+            \begin{itemize}
+                \item 1, 2, 3, A, B, 4
+                \item 1, 2, A, 3, B, 4
+                \item 1, 2, A, B, 3, 4
+                \item 1, A, 2, B, 3, 4
+                \item 1, A, B, 2, 3, 4
+            \end{itemize}
+        \end{multicols}
+    \end{exampleblock}
+
+%    \framebreak
+
+%    \codeview{1}{7}{32}{\tiny}{\codepath{Thread1/Program.cs}}
+%    \lstinputlisting[basicstyle=\tiny\ttfamily]{code/Thread1.txt}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+    \frametitle{State graph of a concurrent system}
+
+    \begin{block}{Definition}
+        \begin{itemize}
+            \item A directed graph where
+            %
+            \begin{description}
+                \item[nodes] represent admissible \alert{global} states of the system
+                %
+                \begin{itemize}
+                    \item i.e. assignments of \alert{all} variables of the systems
+                    \item including all program counters of all threads
+                    \item including all fields of all objects used by all threads
+                \end{itemize}
+
+                \item[edges] represent admissible state transition
+                %
+                \begin{itemize}
+                    \item due to any thread executing a single atomic operation
+                    \item each node has an outgoing edge for each possible state transition
+                \end{itemize}
+            \end{description}
+        \end{itemize}
+    \end{block}
+
+    \framebreak
+
+%    \tcodeview{1}{6}{27}{\tiny}{\codepath{Thread2/Program.cs}}{Example of concurrent system\dots}
+    \lstinputlisting[basicstyle=\tiny\ttfamily, language=Java, caption={Example of concurrent system\dots}]{code/Thread2.java}
+
+    \framebreak
+
+    \begin{center}
+        \ldots and its state graph ($> 18$ states!)
+
+        \includegraphics[height=.7\textheight]{img/state-diagram.pdf}
+    \end{center}
+
+    \framebreak
+
+    \begin{alertblock}{Recall that}
+        \begin{itemize}
+            \item When you launch a concurrent system, you can observe a single run
+            %
+            \begin{itemize}
+                \item among the many possible ones
+            \end{itemize}
+
+            \item This corresponds to one particular path in the state graph
+            %
+            \begin{itemize}
+                \item from the initial state to some ending state
+                %
+                \begin{itemize}
+                    \item \ldots assuming that an ending state even exist
+                \end{itemize}
+            \end{itemize}
+        \end{itemize}
+    \end{alertblock}
+
+\end{frame}
+
+\section{Asynchronous Programming}
+
 \subsection{Executor Services}
 
 \begin{frame}[c,allowframebreaks]{Executor Services}
@@ -267,13 +806,13 @@
         \item[!] have a look to \texttt{sd.lab.concurrency.\alert{TestAsyncCounter1}}
     \end{itemize}
 
-    \framebreak
-
-    Consider having a look to the following examples as well
-    %
-    \begin{itemize}
-        \item[!] \texttt{sd.lab.concurrency.\alert{SplittingComputationsExamples}}
-    \end{itemize}
+%    \framebreak
+%
+%    Consider having a look to the following examples as well
+%    %
+%    \begin{itemize}
+%        \item[!] \texttt{sd.lab.concurrency.\alert{SplittingComputationsExamples}}
+%    \end{itemize}
 
     \framebreak
 

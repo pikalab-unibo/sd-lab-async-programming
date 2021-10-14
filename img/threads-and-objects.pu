@@ -1,0 +1,33 @@
+@startuml
+hide footbox
+
+control "Main Thread" as main
+participant ThreadDetector
+control "Other Thread" as thread
+
+activate main
+
+main -> ThreadDetector: Detect()
+activate ThreadDetector
+
+note right: Console.WriteLine(//MainThread//.ManagedThreadId)
+
+ThreadDetector --> main
+deactivate ThreadDetector
+
+main -> thread: Start()
+activate thread
+
+thread -> ThreadDetector: Detect()
+activate ThreadDetector
+
+note left: Console.WriteLine(//OtherThread//.ManagedThreadId)
+
+ThreadDetector --> thread
+deactivate ThreadDetector
+
+thread --> main: resume Join()
+deactivate thread
+
+deactivate main
+@enduml

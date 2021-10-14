@@ -1,0 +1,119 @@
+@startuml
+[*] --> s0
+
+s0: ""x = 0""
+s0: **Main Thread:** ""WriteLine(x); x = 1; WriteLine(x)""
+s0: **Other Thread:** ""WriteLine(x); x = 2; WriteLine(x)""
+
+s0 --> s1: **Main Thread**\n""WriteLine(x)""
+s0 --> s2: **Other Thread**\n""WriteLine(x)""
+
+s1: ""x = 0""
+s1: **Main Thread:** ""x = 1; WriteLine(x)""
+s1: **Other Thread:** ""WriteLine(x); x = 2; WriteLine(x)""
+
+s2: ""x = 0""
+s2: **Main Thread:** ""WriteLine(x); x = 1; WriteLine(x)""
+s2: **Other Thread:** ""x = 2; WriteLine(x)""
+
+
+s1 --> s3: **Main Thread**\n""x = 1""
+s1 --> s4: **Other Thread**\n""WriteLine(x)""
+s2 --> s4: **Main Thread**\n""WriteLine(x)""
+
+s3: ""x = 1""
+s3: **Main Thread:** ""WriteLine(x)""
+s3: **Other Thread:** ""WriteLine(x); x = 2; WriteLine(x)""
+
+s4: ""x = 0""
+s4: **Main Thread:** ""x = 1; WriteLine(x)""
+s4: **Other Thread:** ""x = 2; WriteLine(x)""
+
+s3 --> s5: **Main Thread**\n""WriteLine(x)""
+
+s5: ""x = 1""
+s5: **Main Thread:** over
+s5: **Other Thread:** ""WriteLine(x); x = 2; WriteLine(x)""
+
+s5 --> s6: **Other Thread**\n""WriteLine(x)""
+
+s6: ""x = 1""
+s6: **Main Thread:** over
+s6: **Other Thread:** ""x = 2; WriteLine(x)""
+
+s6 --> s7: **Other Thread**\n""x = 2""
+
+s7: ""x = 2""
+s7: **Main Thread:** over
+s7: **Other Thread:** ""WriteLine(x)""
+
+s7 --> s8: **Other Thread**\n""WriteLine(x)""
+
+s8: ""x = 2""
+s8: **Main Thread:** over
+s8: **Other Thread:** over
+
+s3 --> s9: **Other Thread**\n""WriteLine(x)""
+
+s9: ""x = 1""
+s9: **Main Thread:** ""WriteLine(x)""
+s9: **Other Thread:** ""x = 2; WriteLine(x)""
+
+s9 --> s6: **Main Thread**\n""WriteLine(x)""
+
+s9 --> s10: **Other Thread**\n""x = 2""
+
+s10: ""x = 2""
+s10: **Main Thread:** ""WriteLine(x)""
+s10: **Other Thread:** ""WriteLine(x)""
+
+s10 --> s7: **Main Thread**\n""WriteLine(x)""
+s10 --> s11: **Other Thread**\n""WriteLine(x)""
+
+s11: ""x = 2""
+s11: **Main Thread:** ""WriteLine(x)""
+s11: **Other Thread:** over
+
+s11 --> s8: **Main Thread**\n""WriteLine(x)""
+
+s4 --> s9: **Main Thread**\n""x = 1""
+
+s4 --> s12: **Other Thread**\n""x = 2""
+
+s12: ""x = 2""
+s12: **Main Thread:** ""x = 1; WriteLine(x)""
+s12: **Other Thread:** ""WriteLine(x)""
+
+s12 --> s13: **Main Thread**\n""x = 1""
+
+s13: ""x = 1""
+s13: **Main Thread:** ""WriteLine(x)""
+s13: **Other Thread:** ""WriteLine(x)""
+
+s13 --> s14: **Main Thread**\n""WriteLine(x)""
+s13 --> s15: **Other Thread**\n""WriteLine(x)""
+
+s14: ""x = 1""
+s14: **Main Thread:** over
+s14: **Other Thread:** ""WriteLine(x)""
+
+s15: ""x = 1""
+s15: **Main Thread:** ""WriteLine(x)""
+s15: **Other Thread:** over
+
+s15 --> s16: **Main Thread**\n""WriteLine(x)""
+s14 --> s16: **Other Thread**\n""WriteLine(x)""
+
+s16: ""x = 1""
+s16: **Main Thread:** over
+s16: **Other Thread:** over
+
+s12 --> s17: **Other Thread**\n""WriteLine(x)""
+
+s17: ""x = 2""
+s17: **Main Thread:** ""x = 1; WriteLine(x)""
+s17: **Other Thread:** over
+
+s17 --> s15: **Main Thread**\n""x = 1""
+
+@enduml
