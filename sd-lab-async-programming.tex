@@ -1001,18 +1001,9 @@
 
 \startExercise
 
-\subsection{Custom Executor Service (Advanced)}
+\subsection{Custom Executor Service}
 
-\begin{frame}[c,allowframebreaks]{(Advanced) Exercise \currentExercise{} -- Custom Executor Service}
-
-	\begin{alertblock}{This is an \textbf{advanced} exercise}
-		\begin{itemize}
-			\item feel free to skip it
-			\item try it if you are curious about the idea of implementing your own executor service
-		\end{itemize}
-	\end{alertblock}
-
-	\framebreak
+\begin{frame}[c,allowframebreaks]{Exercise \currentExercise{} -- Custom Executor Service}
 
 	Consider the class \texttt{sd.lab.concurrency.exercise.\alert{SingleThreadedExecutorService}}: it consists of an \alert{incomplete} raw implementation of a \emph{single-threaded} executor service
 	%
@@ -1043,10 +1034,6 @@
 
         \bigskip
 
-        \item recall to un-ignore tests
-
-        \bigskip
-
         \item submit your exercise to the following branch on Lab 3 repository
         %
         \begin{center}
@@ -1058,6 +1045,37 @@
         \item continuous Integration will automatically run tests
 
 	\end{enumerate}
+
+\end{frame}
+
+\startExercise
+
+\subsection{Multi-Reading Executor Service}
+
+\begin{frame}[c]{Exercise \currentExercise{} -- Multi-Reading Executor Service}
+    Consider the interface \texttt{sd.lab.concurrency.exercise.\alert{MultiReadingExecutor}}: it consists of a service exploiting an executor service to read text from $N$ input streams, \alert{concurrently}
+    %
+    \begin{itemize}
+        \item input streams are provided upon constructions
+        \item reading can be started via the \texttt{start()} method
+        \item termination can be awaited via the \texttt{join(\ldots)} methods
+    \end{itemize}
+
+    %
+    \bigskip
+    %
+    \begin{enumerate}
+        \item the goal of this exercise is to complete its implementation in such a way that tests in \texttt{sd.lab\allowbreak{}.concurrency\allowbreak{}.exercise\allowbreak{}.\alert{TestMultiReadingExecutor}}
+        are all satisfied
+
+        \item your solution \alert{must} rely on executor services behind the scenes
+
+        \item your solution \alert{must avoid} getting stuck on unavailable inputs
+        %
+        \begin{itemize}
+            \item meaning that available inputs should be consumed as soon as possible
+        \end{itemize}
+    \end{enumerate}
 
 \end{frame}
 
