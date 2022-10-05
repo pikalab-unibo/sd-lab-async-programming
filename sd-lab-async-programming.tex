@@ -438,6 +438,59 @@
 \end{frame}
 
 \begin{frame}[allowframebreaks]
+    \frametitle{Consequences of Concurrency}
+
+    \begin{block}{Non-determinism}
+        \begin{itemize}
+            \item The way the OS will schedule concurrent threads is unpredictable
+            \item Different runs of a concurrent program may produce different outcomes
+            %
+            \begin{itemize}
+                \item because execution may proceed differently in different runs
+            \end{itemize}
+            \item[$\rightarrow$] Non-deterministic observable behaviour of the system
+        \end{itemize}
+    \end{block}
+
+    \begin{block}{Interleaving}
+        \begin{itemize}
+            \item \alert{Atomic} actions of concurrent threads may unpredictably \alert{interleave}
+            \item All possible total ordering among atomic actions may occur
+            %
+            \begin{itemize}
+                \item in principle
+                \item despite with different probabilities
+            \end{itemize}
+            \item Unpredictability of interleaving $\rightarrow$ Non-determinism
+        \end{itemize}
+    \end{block}
+
+    \framebreak
+
+    \begin{center}
+        \includegraphics[width=\linewidth]{img/fork-join.pdf}
+    \end{center}
+
+    \begin{exampleblock}{Possible interleavings}
+        \begin{multicols}{3}
+            \begin{itemize}
+                \item 1, 2, 3, A, B, 4
+                \item 1, 2, A, 3, B, 4
+                \item 1, 2, A, B, 3, 4
+                \item 1, A, 2, B, 3, 4
+                \item 1, A, B, 2, 3, 4
+            \end{itemize}
+        \end{multicols}
+    \end{exampleblock}
+
+%    \framebreak
+
+%    \codeview{1}{7}{32}{\tiny}{\codepath{Thread1/Program.cs}}
+%    \lstinputlisting[basicstyle=\tiny\ttfamily]{code/Thread1.txt}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]
     \frametitle{Advanced Aspects of Threads}
 
     % Synchronization (Suspend/Block -- Resume/Release)
@@ -508,55 +561,86 @@
 \end{frame}
 
 \begin{frame}[allowframebreaks]
-    \frametitle{Consequences of Concurrency}
+    \frametitle{Threads and I/O}
 
-    \begin{block}{Non-determinism}
+    \begin{alertblock}{Takeway}
         \begin{itemize}
-            \item The way the OS will schedule concurrent threads is unpredictable
-            \item Different runs of a concurrent program may produce different outcomes
+            \item I/O stream reading/writing operations are \alert{blocking}
             %
             \begin{itemize}
-                \item because execution may proceed differently in different runs
+                \item you may not notice that if the operation is \alert{local}
             \end{itemize}
-            \item[$\rightarrow$] Non-deterministic observable behaviour of the system
         \end{itemize}
-    \end{block}
-
-    \begin{block}{Interleaving}
-        \begin{itemize}
-            \item \alert{Atomic} actions of concurrent threads may unpredictably \alert{interleave}
-            \item All possible total ordering among atomic actions may occur
-            %
-            \begin{itemize}
-                \item in principle
-                \item despite with different probabilities
-            \end{itemize}
-            \item Unpredictability of interleaving $\rightarrow$ Non-determinism
-        \end{itemize}
-    \end{block}
+    \end{alertblock}
 
     \framebreak
 
-    \begin{center}
-        \includegraphics[width=\linewidth]{img/fork-join.pdf}
-    \end{center}
-
-    \begin{exampleblock}{Possible interleavings}
-        \begin{multicols}{3}
+    \startDemo
+    \begin{exampleblock}{Demo \currentDemo{} -- One thread reading multiple files}
+        \begin{itemize}
+            \item Consider the \texttt{sd.lab.concurrency.\alert{MultiReadingThread}*} classes
+            \item it's a single thread reading multiple files in a \alert{round-robin} fashion:
+            %
+            \begin{description}\small
+                \item[\texttt{file1.txt}] containing lines \texttt{a}, \texttt{b}, \texttt{c}
+                \item[\texttt{file2.txt}] containing lines \texttt{1}, \texttt{2}, \texttt{3}
+                \item[\texttt{file3.txt}] containing lines $\mathtt{\alpha}$, $\mathtt{\beta}$, $\mathtt{\gamma}$
+                \item[standard input] containing any line you may write 
+            \end{description}
+            \item If the standard input is included among the files to be read:
+            %
             \begin{itemize}
-                \item 1, 2, 3, A, B, 4
-                \item 1, 2, A, 3, B, 4
-                \item 1, 2, A, B, 3, 4
-                \item 1, A, 2, B, 3, 4
-                \item 1, A, B, 2, 3, 4
+                \item the execution of the thread will block until you write some line
+                \item any other activity is stuck until then
             \end{itemize}
-        \end{multicols}
+            \item Total ordering of reads is \alert{predictable}
+        \end{itemize}
     \end{exampleblock}
 
-%    \framebreak
+    \framebreak
 
-%    \codeview{1}{7}{32}{\tiny}{\codepath{Thread1/Program.cs}}
-%    \lstinputlisting[basicstyle=\tiny\ttfamily]{code/Thread1.txt}
+    \startDemo
+    \begin{exampleblock}{Demo \currentDemo{} -- Multiple threads reading multiple files}
+        \begin{itemize}
+            \item Consider the \texttt{sd.lab.concurrency.\alert{MultiReadingService}*} classes
+            \item it's a program reading multiple files, using \alert{one thread per file}:
+            %
+            \begin{itemize}
+                \item same files as above
+            \end{itemize}
+            \item If one thread is blocked, the others can progress anyway
+            \item Total ordering of reads is \alert{unpredictable}
+            %
+            \begin{itemize}
+                \item per-file ordering of reads is predictable, instead
+            \end{itemize}
+        \end{itemize}
+    \end{exampleblock}
+
+    \framebreak
+
+    \begin{block}{How do we test concurrent systems?}
+        \begin{itemize}
+            \item Consider classes \texttt{sd.lab.concurrency.\alert{TestMultiReading}*}
+            %
+            \begin{itemize}
+                \item and the test units therein defined (i.e. methods annotated with \texttt{@Test})
+            \end{itemize}
+            \item All such unit tests follow a similar pattern:
+            %
+            \begin{enumerate}
+                \item initialize some collection $C$ 
+                \item configure the system to push all relevant \alert{observable} events in $C$
+                \item start the system
+                \item wait for the system to terminate
+                \item draw assertions about \alert{which} event occurred
+                %
+                \begin{itemize}
+                    \item possibly, draw assertions about the (partial) \alert{ordering} of events
+                \end{itemize}
+            \end{enumerate}
+        \end{itemize}
+    \end{block}
 
 \end{frame}
 
