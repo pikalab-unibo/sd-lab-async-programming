@@ -1019,24 +1019,29 @@
 
 \begin{frame}[c,allowframebreaks]{Exercise \currentExercise{} -- Asynchronous Factorial Calculator}
 
+    \begin{alertblock}{}
+        \centering
+        This exercise is \alert{mandatory}!
+    \end{alertblock}
+
+    \bigskip
+
 	Consider the interface \texttt{sd.lab.concurrency.exercise.\alert{AsyncFactorialCalculator}}:
-	%
-	\bigskip
 	%
 	\lstinputlisting[language=Java]{./code/AsyncCalculator.java}
 	%
-	\bigskip
+	\framebreak
+
+    Work to do
 	%
 	\begin{enumerate}
 		\item provide an implementation for such an interface\ldots
-
-		\bigskip
 
 		\item \ldots in such a way that tests in \texttt{sd.lab\allowbreak{}.concurrency\allowbreak{}.exercise\allowbreak{}.\alert{TestAsyncCalculator}} are all satisfied
 
 	\end{enumerate}
 
-    \framebreak
+    \bigskip
 
 	\begin{block}{Requirements}
 		\begin{itemize}
@@ -1054,8 +1059,6 @@
 		\begin{center}
 			\texttt{submissions/\textit{name.surname}}
 		\end{center}
-
-		\bigskip
 
 		\item continuous Integration will automatically run tests
 	\end{enumerate}
@@ -1076,9 +1079,14 @@
 
 \begin{frame}[c,allowframebreaks]{Exercise \currentExercise{} -- Custom Executor Service}
 
+    \begin{alertblock}{}
+        \centering
+        This exercise is \alert{mandatory}!
+    \end{alertblock}
+
+    \bigskip
+
 	Consider the class \texttt{sd.lab.concurrency.exercise.\alert{SingleThreadedExecutorService}}: it consists of an \alert{incomplete} raw implementation of a \emph{single-threaded} executor service
-	%
-	\bigskip
 	%
 	\begin{enumerate}
 		\item the goal of this exercise is to complete its implementation in such a way that tests in \texttt{sd.lab\allowbreak{}.concurrency\allowbreak{}.exercise\allowbreak{}.\alert{TestSingleThreadedExecutorService}}
@@ -1132,8 +1140,9 @@
         \item termination can be awaited via the \texttt{join(\ldots)} methods
     \end{itemize}
 
-    %
     \bigskip
+    
+    Work to do:
     %
     \begin{enumerate}
         \item the goal of this exercise is to complete its implementation in such a way that tests in \texttt{sd.lab\allowbreak{}.concurrency\allowbreak{}.exercise\allowbreak{}.\alert{TestMultiReadingExecutor}}
