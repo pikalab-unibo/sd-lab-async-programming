@@ -1,46 +1,33 @@
-% !TeX spellcheck = en_GB
-\documentclass{beamer}\mode<presentation>{\usetheme{AMSBolognaFC}}
-%\documentclass[presentation]{beamer}\mode<presentation>{\usetheme{AMSCesenaPurpleAndGold}}
-%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SD Lab -- Async Programming
+% Giovanni Ciatto
+% Alma Mater Studiorum - Università di Bologna
+% mailto:giovanni.ciatto@unibo.it
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\documentclass[handout]{beamer}\mode<handout>{\usetheme{default}}
+%
+\documentclass[presentation]{beamer}\mode<presentation>{\usetheme{AMSBolognaFC}}
+%\documentclass[handout]{beamer}\mode<handout>{\usetheme{AMSBolognaFC}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{sd-lab-common}
 \usepackage{sd-lab-async-programming}
-%\usepackage{my-listings}
-
-\newcommand{\labN}{3}
-\newcommand{\labGroup}{https://gitlab.com/pika-lab/courses/ds/ay2122}
-\newcommand{\labRepo}{\labGroup/lab-\labN}
-
-\title[L\labN{} -- Async Programming 101]{L\labN{} -- Asynchronous Programming 101}
-%
-\subtitle[SD]{Distributed Systems\\\scriptsize Technologies}
-%
-\author[Ciatto \and Omicini]
-{\emph{Giovanni Ciatto} \and Andrea Omicini\\
-	\texttt{giovanni.ciatto@unibo.it \and andrea.omicini@unibo.it}}
-%
-\institute[DISI, Univ. Bologna]
-{Dipartimento di Informatica -- Scienza e Ingegneria (DISI)\\\textsc{Alma Mater Studiorum} -- Universit{\`a} di Bologna a Cesena}
-%
-\date[A.Y. 2021/2022]{Academic Year 2021/2022}
-
-\setbeamercovered{transparent}
-
-\AtBeginSection{
-	\begin{frame}[c]{Outline}
-		% 		\begin{multicols}{2}
-		\tableofcontents[sectionstyle=show/shaded, subsectionstyle=hide/hide, subsubsectionstyle=hide/hide]
-		% 		\end{multicols}
-	\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title[\currentLab{} -- Async 101]{
+	Asynchronous Programming 101
 }
-
-\AtBeginSubsection{
-	\begin{frame}[c]{Next in Line\ldots}
-		\begin{multicols}{2}
-			\tableofcontents[sectionstyle=show/shaded, subsectionstyle=show/shaded, subsubsectionstyle=hide/hide]
-		\end{multicols}
-	\end{frame}
+%
+\subtitle{\courseName{} (\courseAcronym) / Module \moduleN{}}
+%
+\author[\sspeaker{\gcShort} \& \mmShort]{
+	\speaker{\gcFull} \and \mmFull
+	\\ 
+	\gcEmail \and \mmEmail
 }
-
+%
+\institute[\disiShort, \uniboShort]{\disi{} (\disiShort)\\\unibo}
+%
+\date[A.Y. \academicYear{}]{Academic Year \academicYear{}}
+%
 \begin{document}
 
 %\\\\\\\\\\\\\\\\\\\\\
@@ -79,7 +66,7 @@
 		\item examples and exercises described in this lecture are provided by means of the following GitLab repository:
 		%
 		\begin{center}
-			\url{\labRepo}
+			\uurl{\labRepo}
 		\end{center}
 
 		\vfill
@@ -96,7 +83,7 @@
 
 		\vfill
 
-		\item in order to be able to submit your exercises, please ensure you requested access to the \href{\labGroup}{GitLab group of the course}
+		\item in order to be able to submit your exercises, please ensure you requested access to the \href{\gitlabGroup}{GitLab group of the course}
 	\end{itemize}
 
 \end{frame}
@@ -180,7 +167,7 @@
         Three main abstractions:
         %
         \begin{description}
-            \item[files] | letting processes interact with each others or the HW
+            \item[files] --- letting processes interact with each others or the HW
             %
             \begin{itemize}
                 \item[ie] \alert{streams} of data which can be byte-wise \alert{read/written}
@@ -190,9 +177,9 @@
                 \end{itemize}
             \end{itemize}
 
-            \item[file system] | a \alert{tree}-like way of organising and \alert{referencing}/naming files
+            \item[file system] --- a \alert{tree}-like way of organising and \alert{referencing}/naming files
 
-            \item[path] | the particular name of a file in a file system
+            \item[path] --- the particular name of a file in a file system
         \end{description}
     \end{block}
 \end{frame}
@@ -335,7 +322,7 @@
 
     \begin{exampleblock}{Common operations over threads}
         \begin{description}
-            \item[creation] | lets a thread create another thread from a \alert{procedure}
+            \item[creation] --- lets a thread create another thread from a \alert{procedure}
             %
             \begin{itemize}
                 \item creation usually does not imply start
@@ -346,13 +333,13 @@
                 \end{itemize}
             \end{itemize}
 
-            \item[start] (a.k.a. fork, spawn) | lets a thread spawn another thread
+            \item[start] (a.k.a. fork, spawn) --- lets a thread spawn another thread
             %
             \begin{itemize}
                 \item threads can usually be started only once
             \end{itemize}
 
-            \item[join] (a.k.a. wait, await) | lets a thread wait for another thread termination
+            \item[join] (a.k.a. wait, await) --- lets a thread wait for another thread termination
             %
             \begin{itemize}
                 \item only started threads can be joined
@@ -402,7 +389,7 @@
 
     \begin{exampleblock}{Useful functionalities of \texttt{java.lang.Thread}}
         \begin{description}
-            \item[\texttt{new Thread(Runnable)}] | creates a novel thread which shall execute the provided \texttt{Runnable} upon start
+            \item[\texttt{new Thread(Runnable)}] --- creates a novel thread which shall execute the provided \texttt{Runnable} upon start
 
             \item[\texttt{start()}] lets another thread start the thread
 
@@ -459,15 +446,15 @@
 
     \begin{exampleblock}{More functionalities of threads}
         \begin{description}
-            \item[suspend] (a.k.a. block, wait)  | lets a thread pause its own execution
+            \item[suspend] (a.k.a. block, wait)  --- lets a thread pause its own execution
 
-            \item[resume] (a.k.a. release) | lets a thread resume another thread
+            \item[resume] (a.k.a. release) --- lets a thread resume another thread
             %
             \begin{itemize}
                 \item assumes the latter thread has been previously suspended
             \end{itemize}
 
-            \item[synchronization] (a.k.a. barrier) | lets 2 threads wait for each other to reach a particula point in their execution
+            \item[synchronization] (a.k.a. barrier) --- lets 2 threads wait for each other to reach a particula point in their execution
             %
             \begin{itemize}
                 \item implies both threads suspending and resuming
@@ -493,9 +480,9 @@
             \item Also notice that the following operations involve suspension/resume:
             %
             \begin{description}\small
-                \item[\texttt{Thread.sleep(\cscat{Millis})}] | suspends the current thread for a while
-                \item[\texttt{join()}] | lets a thread await for another thread termination
-                \item[I/O facilities] | for reading or writing over streams
+                \item[\texttt{Thread.sleep(\cscat{Millis})}] --- suspends the current thread for a while
+                \item[\texttt{join()}] --- lets a thread await for another thread termination
+                \item[I/O facilities] --- for reading or writing over streams
                 %
                 \begin{itemize}
                     \item imply potential blocking/resuming
