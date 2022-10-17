@@ -1,5 +1,5 @@
 ExecutorService ex = Executors.newSingleThreadExecutor();
-AsyncCounter2 counter = new AsyncCounter2(ex);
+AsyncCounter2 x = new AsyncCounter2(ex);
 
 assertEquals(0, counter.getValue());
 

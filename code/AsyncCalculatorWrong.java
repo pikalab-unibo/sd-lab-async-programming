@@ -4,7 +4,7 @@ class WrongAsyncFactorialCalculator implements AsyncFactorialCalculator  {
   
   // WRONG APPROACH!
   public CompletableFuture<BigInteger> factorial(BigInteger x) {
-    var result = CompletableFuture<BigInteger>();
+    CompletableFuture<BigInteger> result = CompletableFuture<>();
     executorService.execute(() -> {
       BigInteger value = // whole computation here
       result.complete(value);
